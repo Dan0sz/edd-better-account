@@ -1,0 +1,16 @@
+/.wordpress-org
+/.git
+/.github
+/.vscode
+/node_modules
+/scripts
+/release
+
+.distignore
+.gitignore
+.svnignore
+.gitattributes
+
+package.json
+package-lock.json
+readme.md

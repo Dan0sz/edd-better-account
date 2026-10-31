@@ -1,0 +1,43 @@
+name: Create WordPress plugin Zip file
+
+on:
+  release:
+    types: [ released, prereleased ]
+
+jobs:
+  build:
+    name: Build Plugin Artifact
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production assets
+        run: npm run prod
+
+      - name: Generate plugin artifact
+        run: |
+          mkdir -p release/edd-better-account
+          rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" release/edd-better-account/ --delete --delete-excluded
+          cd "${GITHUB_WORKSPACE}/release" || exit
+          zip -r "${GITHUB_WORKSPACE}/edd-better-account.zip" .
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{github.workspace}}/edd-better-account.zip
+          asset_name: edd-better-account.zip
+          asset_content_type: application/zip
