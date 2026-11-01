@@ -125,8 +125,13 @@ function fallbackCopy(input) {
  * from the table's header and shown with CSS (data-label). Empty cells are hidden.
  */
 document.querySelectorAll('.eba__content table').forEach(function (table) {
-    const labels = Array.from(table.querySelectorAll('thead th')).map(function (th) {
-        return th.textContent.trim();
+    const labels = [];
+
+    // A header spanning more columns (colspan) labels each of them.
+    table.querySelectorAll('thead th').forEach(function (th) {
+        for (let i = 0; i < (th.colSpan || 1); i++) {
+            labels.push(th.textContent.trim());
+        }
     });
 
     if (!labels.length) {
@@ -136,12 +141,16 @@ document.querySelectorAll('.eba__content table').forEach(function (table) {
     table.classList.add('eba-table');
 
     table.querySelectorAll('tbody tr').forEach(function (row) {
-        Array.from(row.children).forEach(function (cell, index) {
+        let column = 0;
+
+        Array.from(row.children).forEach(function (cell) {
             if (!cell.hasAttribute('data-label')) {
-                cell.setAttribute('data-label', labels[index] || '');
+                cell.setAttribute('data-label', labels[column] || '');
             }
 
-            if (!cell.textContent.trim() && !cell.querySelector('img, input, button, select, svg')) {
+            column += cell.colSpan || 1;
+
+            if (!cell.textContent.trim() && !cell.querySelector('a, img, svg, input, button, select, textarea, iframe, video')) {
                 cell.classList.add('eba-table__empty');
             }
 

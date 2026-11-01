@@ -191,6 +191,12 @@
         display: block;
     }
 
+    /* Wide tables without a header (so not shown as cards) scroll instead of running off the screen. */
+    .eba__content table:not(.eba-table) {
+        display: block;
+        overflow-x: auto;
+    }
+
     /* Each row of a table becomes a card, with the column's name next to each value. */
     .eba .eba-table,
     .eba .eba-table tbody,
