@@ -90,6 +90,52 @@
     border-left-color: var(--eba-danger);
 }
 
+/* License key fields (EDD Software Licensing) get a copy button inside them. */
+.eba-copy {
+    position: relative;
+    display: block;
+    max-width: 100%;
+}
+
+.eba-copy .edd_sl_license_key {
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 2.75rem;
+}
+
+.eba .eba-copy__button,
+.eba .eba-copy__button:hover,
+.eba .eba-copy__button:focus {
+    position: absolute;
+    top: 50%;
+    right: .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: .5rem;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.eba .eba-copy__button:hover,
+.eba .eba-copy__button:focus-visible,
+.eba .eba-copy__button.is-copied {
+    background: var(--eba-accent-background);
+    color: var(--eba-accent);
+}
+
+.eba .eba-copy__button.is-failed {
+    color: var(--eba-danger);
+}
+
 /* On smaller screens, the current tab becomes a button that opens the other tabs. */
 @media (max-width: 1023px) {
     .eba {
