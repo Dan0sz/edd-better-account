@@ -119,3 +119,48 @@ function fallbackCopy(input) {
 
     return copied ? Promise.resolve() : Promise.reject();
 }
+
+/**
+ * Tables on smaller screens: each row becomes a card, with the column's name next to each value. The names are taken
+ * from the table's header and shown with CSS (data-label). Empty cells are hidden.
+ */
+document.querySelectorAll('.eba__content table').forEach(function (table) {
+    const labels = [];
+
+    // A header spanning more columns (colspan) labels each of them.
+    table.querySelectorAll('thead th').forEach(function (th) {
+        for (let i = 0; i < (th.colSpan || 1); i++) {
+            labels.push(th.textContent.trim());
+        }
+    });
+
+    // Without a header, or with cells spanning rows, a table keeps scrolling instead.
+    if (!labels.length || table.querySelector('tbody td[rowspan]:not([rowspan="1"]), tbody th[rowspan]:not([rowspan="1"])')) {
+        return;
+    }
+
+    table.classList.add('eba-table');
+
+    table.querySelectorAll('tbody tr').forEach(function (row) {
+        let column = 0;
+
+        Array.from(row.children).forEach(function (cell) {
+            if (!cell.hasAttribute('data-label')) {
+                cell.setAttribute('data-label', labels[column] || '');
+            }
+
+            column += cell.colSpan || 1;
+
+            if (!cell.textContent.trim() && !cell.querySelector('a, img, svg, input, button, select, textarea, iframe, video')) {
+                cell.classList.add('eba-table__empty');
+            }
+
+            // Wrap the cell's content, so it stays together next to its label.
+            const value = document.createElement('div');
+
+            value.className = 'eba-table__value';
+            value.append.apply(value, Array.from(cell.childNodes));
+            cell.append(value);
+        });
+    });
+});
