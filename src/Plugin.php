@@ -106,6 +106,15 @@ class Plugin {
 			filemtime( EDD_BETTER_ACCOUNT_PLUGIN_DIR . "assets/js/better-account$suffix.js" ),
 			true
 		);
+
+		wp_localize_script(
+			'edd-better-account',
+			'ebaL10n',
+			[
+				'copy'   => __( 'Copy license key', $this->text_domain ),
+				'copied' => __( 'Copied!', $this->text_domain ),
+			]
+		);
 	}
 
 	/**

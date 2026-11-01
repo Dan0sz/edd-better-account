@@ -21,6 +21,8 @@ Only top level menu items are shown. Logged out visitors don't see the tabs.
 
 On smaller screens, the current tab becomes a button that opens the other tabs.
 
+License key fields (EDD Software Licensing) get a button to copy the license key.
+
 ### Tips
 
 - Add the CSS class `is-danger` to a menu item (enable **CSS Classes** under **Screen Options** in Appearance > Menus)
