@@ -89,6 +89,9 @@ function setState(button, state, label, icon) {
     }, 2000);
 }
 
+/**
+ * Copies the license key, with the fallback if the Clipboard API isn't available or not allowed.
+ */
 function copy(input) {
     if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(input.value).catch(function () {
