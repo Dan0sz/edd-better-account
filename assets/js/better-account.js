@@ -38,7 +38,7 @@ function setOpen(tabs, open) {
  */
 const COPY_ICON = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 const COPIED_ICON = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>';
-const l10n = window.ebaL10n || { copy: 'Copy license key', copied: 'Copied!' };
+const l10n = window.ebaL10n || { copy: 'Copy license key', copied: 'Copied!', failed: 'Couldn\'t copy, press Ctrl+C (or Cmd+C) to copy it.' };
 
 document.querySelectorAll('input.edd_sl_license_key').forEach(function (input) {
     // On the Manage Sites overview, the key is hidden until its key icon is clicked.
@@ -61,30 +61,57 @@ document.querySelectorAll('input.edd_sl_license_key').forEach(function (input) {
 
     button.addEventListener('click', function () {
         copy(input).then(function () {
-            button.classList.add('is-copied');
-            button.title = l10n.copied;
-            button.setAttribute('aria-label', l10n.copied);
-            button.innerHTML = COPIED_ICON;
-
-            clearTimeout(button.timeout);
-            button.timeout = setTimeout(function () {
-                button.classList.remove('is-copied');
-                button.title = l10n.copy;
-                button.setAttribute('aria-label', l10n.copy);
-                button.innerHTML = COPY_ICON;
-            }, 2000);
+            setState(button, 'is-copied', l10n.copied, COPIED_ICON);
+        }, function () {
+            // Select the key, so it can be copied by hand.
+            input.select();
+            setState(button, 'is-failed', l10n.failed, COPY_ICON);
         });
     });
 });
 
+/**
+ * Shows the result of copying on the button for 2 seconds.
+ */
+function setState(button, state, label, icon) {
+    button.classList.remove('is-copied', 'is-failed');
+    button.classList.add(state);
+    button.title = label;
+    button.setAttribute('aria-label', label);
+    button.innerHTML = icon;
+
+    clearTimeout(button.timeout);
+    button.timeout = setTimeout(function () {
+        button.classList.remove(state);
+        button.title = l10n.copy;
+        button.setAttribute('aria-label', l10n.copy);
+        button.innerHTML = COPY_ICON;
+    }, 2000);
+}
+
 function copy(input) {
     if (navigator.clipboard && window.isSecureContext) {
-        return navigator.clipboard.writeText(input.value);
+        return navigator.clipboard.writeText(input.value).catch(function () {
+            return fallbackCopy(input);
+        });
     }
 
-    // Fallback for browsers without the Clipboard API.
-    input.select();
-    document.execCommand('copy');
+    return fallbackCopy(input);
+}
 
-    return Promise.resolve();
+/**
+ * For browsers without the Clipboard API, or when it's not allowed.
+ */
+function fallbackCopy(input) {
+    input.select();
+
+    let copied = false;
+
+    try {
+        copied = document.execCommand('copy');
+    } catch (e) {
+        copied = false;
+    }
+
+    return copied ? Promise.resolve() : Promise.reject();
 }

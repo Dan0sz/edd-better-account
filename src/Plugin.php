@@ -113,6 +113,7 @@ class Plugin {
 			[
 				'copy'   => __( 'Copy license key', $this->text_domain ),
 				'copied' => __( 'Copied!', $this->text_domain ),
+				'failed' => __( 'Couldn\'t copy, press Ctrl+C (or Cmd+C) to copy it.', $this->text_domain ),
 			]
 		);
 	}

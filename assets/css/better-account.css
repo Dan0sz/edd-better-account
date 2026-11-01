@@ -98,6 +98,7 @@
 }
 
 .eba-copy .edd_sl_license_key {
+    box-sizing: border-box;
     width: 100%;
     padding-right: 2.75rem;
 }
@@ -129,6 +130,10 @@
 .eba .eba-copy__button.is-copied {
     background: var(--eba-accent-background);
     color: var(--eba-accent);
+}
+
+.eba .eba-copy__button.is-failed {
+    color: var(--eba-danger);
 }
 
 /* On smaller screens, the current tab becomes a button that opens the other tabs. */
