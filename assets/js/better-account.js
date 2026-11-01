@@ -134,7 +134,8 @@ document.querySelectorAll('.eba__content table').forEach(function (table) {
         }
     });
 
-    if (!labels.length) {
+    // Without a header, or with cells spanning rows, a table keeps scrolling instead.
+    if (!labels.length || table.querySelector('tbody td[rowspan]:not([rowspan="1"]), tbody th[rowspan]:not([rowspan="1"])')) {
         return;
     }
 
