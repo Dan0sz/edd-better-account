@@ -64,6 +64,7 @@ document.querySelectorAll('input.edd_sl_license_key').forEach(function (input) {
             setState(button, 'is-copied', l10n.copied, COPIED_ICON);
         }, function () {
             // Select the key, so it can be copied by hand.
+            input.focus();
             input.select();
             setState(button, 'is-failed', l10n.failed, COPY_ICON);
         });
