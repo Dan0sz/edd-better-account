@@ -23,6 +23,9 @@ On smaller screens, the current tab becomes a button that opens the other tabs.
 
 License key fields (EDD Software Licensing) get a button to copy the license key.
 
+On smaller screens, each row of a table (e.g. Orders, Subscriptions or Manage Sites) becomes a card, with the column's
+name next to each value.
+
 ### Tips
 
 - Add the CSS class `is-danger` to a menu item (enable **CSS Classes** under **Screen Options** in Appearance > Menus)

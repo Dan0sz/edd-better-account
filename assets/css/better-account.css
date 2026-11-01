@@ -191,9 +191,67 @@
         display: block;
     }
 
-    /* Wide tables (e.g. Subscriptions) scroll instead of running off the screen. */
-    .eba__content table {
+    /* Each row of a table becomes a card, with the column's name next to each value. */
+    .eba .eba-table,
+    .eba .eba-table tbody,
+    .eba .eba-table tr,
+    .eba .eba-table td {
         display: block;
-        overflow-x: auto;
+        width: auto;
+    }
+
+    .eba .eba-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .eba .eba-table tr {
+        margin-bottom: .75rem;
+        padding: .25rem 1rem;
+        border: 1px solid var(--eba-divider);
+        border-radius: .5rem;
+        background: var(--eba-background);
+    }
+
+    .eba .eba-table tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .eba .eba-table td {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: .25rem 1rem;
+        padding: .6rem 0;
+        border: 0;
+        border-bottom: 1px solid var(--eba-divider);
+        text-align: right;
+    }
+
+    .eba .eba-table td:last-child {
+        border-bottom: 0;
+    }
+
+    .eba .eba-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-align: left;
+    }
+
+    /* Long values (e.g. a site's URL) go below their label. */
+    .eba .eba-table .eba-table__value {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .eba .eba-table td.eba-table__empty {
+        display: none;
     }
 }

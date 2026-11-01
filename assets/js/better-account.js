@@ -119,3 +119,38 @@ function fallbackCopy(input) {
 
     return copied ? Promise.resolve() : Promise.reject();
 }
+
+/**
+ * Tables on smaller screens: each row becomes a card, with the column's name next to each value. The names are taken
+ * from the table's header and shown with CSS (data-label). Empty cells are hidden.
+ */
+document.querySelectorAll('.eba__content table').forEach(function (table) {
+    const labels = Array.from(table.querySelectorAll('thead th')).map(function (th) {
+        return th.textContent.trim();
+    });
+
+    if (!labels.length) {
+        return;
+    }
+
+    table.classList.add('eba-table');
+
+    table.querySelectorAll('tbody tr').forEach(function (row) {
+        Array.from(row.children).forEach(function (cell, index) {
+            if (!cell.hasAttribute('data-label')) {
+                cell.setAttribute('data-label', labels[index] || '');
+            }
+
+            if (!cell.textContent.trim() && !cell.querySelector('img, input, button, select, svg')) {
+                cell.classList.add('eba-table__empty');
+            }
+
+            // Wrap the cell's content, so it stays together next to its label.
+            const value = document.createElement('div');
+
+            value.className = 'eba-table__value';
+            value.append.apply(value, Array.from(cell.childNodes));
+            cell.append(value);
+        });
+    });
+});
