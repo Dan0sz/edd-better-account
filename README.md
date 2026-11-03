@@ -3,6 +3,13 @@
 Adds tabs to your account pages (Profile, Orders, License Keys, Subscriptions, etc.), so customers can easily switch
 between them. You manage the tabs as a regular WordPress menu.
 
+![Tabs next to the License Keys page, with a notice about a similar account and copy buttons for the license keys](.github/screenshots/desktop.png)
+
+<p>
+  <img src=".github/screenshots/mobile.png" width="300" alt="On smaller screens: the current tab as a button, and a card for each order">
+  <img src=".github/screenshots/mobile-tabs.png" width="300" alt="On smaller screens: the button opens the other tabs">
+</p>
+
 ### How to use
 
 1. Go to **Appearance > Menus** and create a menu with your account pages, e.g. Account (your profile), Orders, Files,
