@@ -3,12 +3,7 @@
 Adds tabs to your account pages (Profile, Orders, License Keys, Subscriptions, etc.), so customers can easily switch
 between them. You manage the tabs as a regular WordPress menu.
 
-![Tabs next to the License Keys page, with a notice about a similar account and copy buttons for the license keys](.github/screenshots/desktop.png)
-
-<p>
-  <img src=".github/screenshots/mobile.png" width="300" alt="On smaller screens: the current tab as a button, and a card for each order">
-  <img src=".github/screenshots/mobile-tabs.png" width="300" alt="On smaller screens: the button opens the other tabs">
-</p>
+![An account page with tabs, a notice about a similar account and license keys with a copy button](.github/screenshots/overview.png)
 
 ### How to use
 
@@ -26,6 +21,8 @@ That's it. Logged-in customers now see the tabs on:
 
 Only top level menu items are shown. Logged out visitors don't see the tabs.
 
+<img src=".github/screenshots/tabs.png" width="240" alt="The tabs">
+
 Logged out visitors who open an account page (e.g. Orders or License Keys, which show nothing to them) are sent to the
 login page: EDD's **Login Page** (Settings > General > Pages), or else the first tab (e.g. your profile page, which
 shows a login form to logged out visitors). The Delete Account page still shows that an account was deleted.
@@ -34,11 +31,15 @@ On smaller screens, the current tab becomes a button that opens the other tabs.
 
 License key fields (EDD Software Licensing) get a button to copy the license key.
 
+<img src=".github/screenshots/copy-license-key.png" width="420" alt="A license key field with a copy button">
+
 Customers who also have another account with the same email domain (e.g. `john@company.com` and `sales@company.com`)
 see a notice above the content of each tab, with a hint for the other account (e.g. `joh***doe@company.com`),
 and a link that logs them out and takes them to the login page (EDD's Login Page, or else the first tab, e.g. the
 profile page, which shows a login form to logged out visitors). Only other accounts with orders that can log in are shown, at most 3. Email
 providers anyone can sign up with (Gmail, Outlook, etc.) are skipped.
+
+![A notice about a similar account, with a link to log into the other account](.github/screenshots/similar-account.png)
 
 On smaller screens, each row of a table (e.g. Orders, Subscriptions or Manage Sites) becomes a card, with the column's
 name next to each value.
