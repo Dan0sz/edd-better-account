@@ -109,8 +109,8 @@ class OtherAccounts {
 		$message = sprintf(
 			/* translators: 1: the other account(s), e.g. joh***doe@company.com, 2: link to log out and log into the other account(s) */
 			_n(
-				'Another account (%1$s) was found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
-				'Other accounts (%1$s) were found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
+				'A similar account (%1$s) was found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
+				'Similar accounts (%1$s) were found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
 				count( $hints ),
 				$this->text_domain
 			),
