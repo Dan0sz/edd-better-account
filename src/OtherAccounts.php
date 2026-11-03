@@ -172,26 +172,16 @@ class OtherAccounts {
 	}
 
 	/**
-	 * Where customers log in after logging out: EDD's login page (Settings > General > Pages > Login Page), or else the
-	 * first tab (e.g. the profile page, which shows a login form to logged out visitors), or else the login URL.
-	 *
 	 * @return string
 	 */
 	private function get_login_url() {
-		$url = function_exists( 'edd_get_login_page_uri' ) ? edd_get_login_page_uri() : false;
-
-		if ( ! $url ) {
-			$first = $this->tabs->get_items()[ 0 ] ?? null;
-			$url   = $first && strpos( $first->url, 'action=logout' ) === false ? $first->url : '';
-		}
-
 		/**
 		 * Where customers are sent after logging out to log into their other account. A URL on another host (e.g. an SSO
 		 * login page) must be allowed with the allowed_redirect_hosts filter, or WordPress redirects to the admin instead.
 		 *
 		 * @param string $url
 		 */
-		return apply_filters( 'edd_better_account_other_account_login_url', $url ?: wp_login_url() );
+		return apply_filters( 'edd_better_account_other_account_login_url', $this->tabs->get_login_url() );
 	}
 
 	/**

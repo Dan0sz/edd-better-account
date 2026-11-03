@@ -19,6 +19,10 @@ That's it. Logged-in customers now see the tabs on:
 
 Only top level menu items are shown. Logged out visitors don't see the tabs.
 
+Logged out visitors who open an account page (e.g. Orders or License Keys, which show nothing to them) are sent to the
+login page: EDD's **Login Page** (Settings > General > Pages), or else the first tab (e.g. your profile page, which
+shows a login form to logged out visitors). The Delete Account page still shows that an account was deleted.
+
 On smaller screens, the current tab becomes a button that opens the other tabs.
 
 License key fields (EDD Software Licensing) get a button to copy the license key.
@@ -60,6 +64,10 @@ The `<body>` gets the class `has-account-tabs` on pages with tabs.
 
 ### Filters
 
+- `edd_better_account_login_url` — where customers log in (see above). A URL on another host must also be allowed with
+  WordPress' `allowed_redirect_hosts` filter.
+- `edd_better_account_redirect_to_login` — whether to send logged out visitors on an account page to the login page
+  (`$redirect`, `$page_id`).
 - `edd_better_account_subscriptions_tab` — the tab to mark as current on EDD Recurring's Update Payment Method page.
 - `edd_better_account_public_email_domains` — email domains (e.g. `gmail.com`) for which no other accounts are looked
   up, because anyone can sign up with them.

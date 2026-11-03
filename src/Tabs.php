@@ -50,6 +50,29 @@ class Tabs {
 	}
 
 	/**
+	 * Where customers log in: EDD's login page (Settings > General > Pages > Login Page), or else the first tab (e.g. the
+	 * profile page, which shows a login form to logged out visitors), or else the login URL.
+	 *
+	 * @return string
+	 */
+	public function get_login_url() {
+		$url = function_exists( 'edd_get_login_page_uri' ) ? edd_get_login_page_uri() : false;
+
+		if ( ! $url ) {
+			$first = $this->get_items()[ 0 ] ?? null;
+			$url   = $first && strpos( $first->url, 'action=logout' ) === false ? $first->url : '';
+		}
+
+		/**
+		 * Where customers log in, e.g. when logged out visitors open an account page. A URL on another host must be allowed
+		 * with the allowed_redirect_hosts filter, or WordPress redirects to the admin instead.
+		 *
+		 * @param string $url
+		 */
+		return apply_filters( 'edd_better_account_login_url', $url ?: wp_login_url() );
+	}
+
+	/**
 	 * The tab for a page: the page itself, or else its closest ancestor, e.g. a subpage of Account belongs to the Account tab.
 	 *
 	 * @param int $page_id
