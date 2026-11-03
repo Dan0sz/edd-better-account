@@ -49,6 +49,7 @@ class Plugin {
 	private function init() {
 		add_action( 'after_setup_theme', [ $this, 'register_menu_location' ] );
 		add_action( 'wp', [ $this, 'set_current_tab' ] );
+		add_action( 'template_redirect', [ $this, 'maybe_redirect_to_login' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_filter( 'body_class', [ $this, 'add_body_class' ] );
 
@@ -86,6 +87,44 @@ class Plugin {
 		if ( is_page() ) {
 			$this->current = $this->tabs->get_tab_for_page( get_queried_object_id() );
 		}
+	}
+
+	/**
+	 * The account pages (e.g. Orders or License Keys) show nothing to logged out visitors, so send them to the login page.
+	 *
+	 * @return void
+	 */
+	public function maybe_redirect_to_login() {
+		if ( is_user_logged_in() || ! is_page() ) {
+			return;
+		}
+
+		$page_id = get_queried_object_id();
+
+		if ( ! $this->tabs->get_tab_for_page( $page_id ) || $this->shows_account_deleted( $page_id ) ) {
+			return;
+		}
+
+		$login_url = $this->tabs->get_login_url();
+
+		// The login page itself, e.g. the profile page.
+		if ( url_to_postid( $login_url ) === $page_id ) {
+			return;
+		}
+
+		/**
+		 * Whether to send logged out visitors on this account page to the login page.
+		 *
+		 * @param bool $redirect
+		 * @param int  $page_id
+		 */
+		if ( ! apply_filters( 'edd_better_account_redirect_to_login', true, $page_id ) ) {
+			return;
+		}
+
+		wp_safe_redirect( $login_url );
+
+		exit;
 	}
 
 	/**
@@ -178,6 +217,18 @@ class Plugin {
 	 */
 	public function wrap( $content ) {
 		return '<div class="eba">' . $this->tabs->render( $this->current ) . '<div class="eba__content">' . $this->other_accounts->get_notice() . $content . '</div></div>';
+	}
+
+	/**
+	 * After deleting their account (Delete Account for Easy Digital Downloads), the visitor is logged out and returns to the
+	 * page to see it was deleted.
+	 *
+	 * @param int $page_id
+	 *
+	 * @return bool
+	 */
+	private function shows_account_deleted( $page_id ) {
+		return isset( $_GET[ 'account-deleted' ] ) && has_block( 'edd-delete-account/delete-account', $page_id );
 	}
 
 	/**
