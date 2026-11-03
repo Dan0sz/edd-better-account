@@ -24,7 +24,7 @@ On smaller screens, the current tab becomes a button that opens the other tabs.
 License key fields (EDD Software Licensing) get a button to copy the license key.
 
 Customers who also have another account with the same email domain (e.g. `john@company.com` and `sales@company.com`)
-see a notice above the content of each tab, with a username hint for the other account (e.g. `joh***doe@company.com`),
+see a notice above the content of each tab, with a hint for the other account (e.g. `joh***doe@company.com`),
 and a link that logs them out and takes them to the login page (EDD's Login Page, or else the first tab, e.g. the
 profile page, which shows a login form to logged out visitors). Only other accounts with orders that can log in are shown, at most 3. Email
 providers anyone can sign up with (Gmail, Outlook, etc.) are skipped.

@@ -107,16 +107,15 @@ class OtherAccounts {
 		);
 
 		$message = sprintf(
-			/* translators: 1: email domain, e.g. @company.com, 2: link to log out and log into the other account(s), 3: username hint(s), e.g. joh***doe@company.com */
+			/* translators: 1: the other account(s), e.g. joh***doe@company.com, 2: link to log out and log into the other account(s) */
 			_n(
-				'Another account ending with %1$s was found. If you have trouble finding your orders, license keys and/or files under this account, %2$s. Username hint: %3$s.',
-				'Other accounts ending with %1$s were found. If you have trouble finding your orders, license keys and/or files under this account, %2$s. Username hints: %3$s.',
+				'Another account (%1$s) was found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
+				'Other accounts (%1$s) were found. If you have trouble finding your orders, license keys and/or files under this account, %2$s.',
 				count( $hints ),
 				$this->text_domain
 			),
-			'<strong>@' . esc_html( $domain ) . '</strong>',
-			$link,
-			implode( ', ', array_map( fn( $hint ) => '<strong>' . esc_html( $hint ) . '</strong>', $hints ) )
+			implode( ', ', array_map( fn( $hint ) => '<strong>' . esc_html( $hint ) . '</strong>', $hints ) ),
+			$link
 		);
 
 		return '<div class="edd-alert edd-alert-info eba-other-accounts"><p>' . $message . '</p></div>';
