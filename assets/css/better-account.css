@@ -90,6 +90,21 @@
     border-left-color: var(--eba-danger);
 }
 
+/* The notice about the customer's other accounts, above the content. */
+.eba .eba-other-accounts {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 0;
+    border-left: 3px solid var(--eba-accent);
+    border-radius: .5rem;
+    background: var(--eba-accent-background);
+    color: inherit;
+}
+
+.eba .eba-other-accounts p {
+    margin: 0;
+}
+
 /* License key fields (EDD Software Licensing) get a copy button inside them. */
 .eba-copy {
     position: relative;
