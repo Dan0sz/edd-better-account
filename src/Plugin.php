@@ -17,6 +17,11 @@ class Plugin {
 	private $tabs;
 
 	/**
+	 * @var OtherAccounts
+	 */
+	private $other_accounts;
+
+	/**
 	 * @var \WP_Post|null The current tab, if the tabs are shown on this page.
 	 */
 	private $current;
@@ -30,7 +35,8 @@ class Plugin {
 	 * Build class.
 	 */
 	public function __construct() {
-		$this->tabs = new Tabs();
+		$this->tabs           = new Tabs();
+		$this->other_accounts = new OtherAccounts( $this->tabs );
 
 		$this->init();
 	}
@@ -164,12 +170,14 @@ class Plugin {
 	}
 
 	/**
+	 * The tabs, and the content with a notice about the customer's other accounts above it.
+	 *
 	 * @param string $content
 	 *
 	 * @return string
 	 */
 	public function wrap( $content ) {
-		return '<div class="eba">' . $this->tabs->render( $this->current ) . '<div class="eba__content">' . $content . '</div></div>';
+		return '<div class="eba">' . $this->tabs->render( $this->current ) . '<div class="eba__content">' . $this->other_accounts->get_notice() . $content . '</div></div>';
 	}
 
 	/**
