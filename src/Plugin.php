@@ -36,7 +36,7 @@ class Plugin {
 	 */
 	public function __construct() {
 		$this->tabs           = new Tabs();
-		$this->other_accounts = new OtherAccounts();
+		$this->other_accounts = new OtherAccounts( $this->tabs );
 
 		$this->init();
 	}

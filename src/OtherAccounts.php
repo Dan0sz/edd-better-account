@@ -17,6 +17,11 @@ class OtherAccounts {
 	private $text_domain = 'edd-better-account';
 
 	/**
+	 * @var Tabs
+	 */
+	private $tabs;
+
+	/**
 	 * At most this many hints are shown.
 	 */
 	const MAX = 3;
@@ -68,6 +73,15 @@ class OtherAccounts {
 	];
 
 	/**
+	 * Build class.
+	 *
+	 * @param Tabs $tabs
+	 */
+	public function __construct( $tabs ) {
+		$this->tabs = $tabs;
+	}
+
+	/**
 	 * A notice with a username hint for each other account of the current user's email domain.
 	 *
 	 * @return string HTML, empty if there are no other accounts.
@@ -86,19 +100,48 @@ class OtherAccounts {
 			return '';
 		}
 
+		$link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( wp_logout_url( $this->get_login_url() ) ),
+			esc_html( _n( 'log into the other account', 'log into one of the other accounts', count( $hints ), $this->text_domain ) )
+		);
+
 		$message = sprintf(
-			/* translators: 1: email domain, e.g. @company.com, 2: username hint(s), e.g. joh***doe@company.com */
+			/* translators: 1: email domain, e.g. @company.com, 2: link to log out and log into the other account(s), 3: username hint(s), e.g. joh***doe@company.com */
 			_n(
-				'Another account ending with %1$s was found. If you can\'t find your orders under this account, try logging in with the other account. Username hint: %2$s.',
-				'Other accounts ending with %1$s were found. If you can\'t find your orders under this account, try logging in with one of the other accounts. Username hints: %2$s.',
+				'Another account ending with %1$s was found. If you have trouble finding your orders, license keys and/or files under this account, %2$s. Username hint: %3$s.',
+				'Other accounts ending with %1$s were found. If you have trouble finding your orders, license keys and/or files under this account, %2$s. Username hints: %3$s.',
 				count( $hints ),
 				$this->text_domain
 			),
 			'<strong>@' . esc_html( $domain ) . '</strong>',
+			$link,
 			implode( ', ', array_map( fn( $hint ) => '<strong>' . esc_html( $hint ) . '</strong>', $hints ) )
 		);
 
 		return '<div class="edd-alert edd-alert-info eba-other-accounts"><p>' . $message . '</p></div>';
+	}
+
+	/**
+	 * Where customers log in after logging out: EDD's login page (Settings > General > Pages > Login Page), or else the
+	 * first tab (e.g. the profile page, which shows a login form to logged out visitors), or else the login URL.
+	 *
+	 * @return string
+	 */
+	private function get_login_url() {
+		$url = function_exists( 'edd_get_login_page_uri' ) ? edd_get_login_page_uri() : false;
+
+		if ( ! $url ) {
+			$first = $this->tabs->get_items()[ 0 ] ?? null;
+			$url   = $first && strpos( $first->url, 'action=logout' ) === false ? $first->url : '';
+		}
+
+		/**
+		 * Where customers are sent after logging out to log into their other account.
+		 *
+		 * @param string $url
+		 */
+		return apply_filters( 'edd_better_account_other_account_login_url', $url ?: wp_login_url() );
 	}
 
 	/**

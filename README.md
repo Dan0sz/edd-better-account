@@ -25,7 +25,8 @@ License key fields (EDD Software Licensing) get a button to copy the license key
 
 Customers who also have another account with the same email domain (e.g. `john@company.com` and `sales@company.com`)
 see a notice above the content of each tab, with a username hint for the other account (e.g. `joh***doe@company.com`),
-in case they can't find their orders. Only other accounts with orders that can log in are shown, at most 3. Email
+and a link that logs them out and takes them to the login page (EDD's Login Page, or else the first tab, e.g. the
+profile page, which shows a login form to logged out visitors). Only other accounts with orders that can log in are shown, at most 3. Email
 providers anyone can sign up with (Gmail, Outlook, etc.) are skipped.
 
 On smaller screens, each row of a table (e.g. Orders, Subscriptions or Manage Sites) becomes a card, with the column's
@@ -62,3 +63,5 @@ The `<body>` gets the class `has-account-tabs` on pages with tabs.
 - `edd_better_account_subscriptions_tab` — the tab to mark as current on EDD Recurring's Update Payment Method page.
 - `edd_better_account_public_email_domains` — email domains (e.g. `gmail.com`) for which no other accounts are looked
   up, because anyone can sign up with them.
+- `edd_better_account_other_account_login_url` — where customers are sent after logging out to log into their other
+  account.
