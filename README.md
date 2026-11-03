@@ -64,4 +64,4 @@ The `<body>` gets the class `has-account-tabs` on pages with tabs.
 - `edd_better_account_public_email_domains` — email domains (e.g. `gmail.com`) for which no other accounts are looked
   up, because anyone can sign up with them.
 - `edd_better_account_other_account_login_url` — where customers are sent after logging out to log into their other
-  account.
+  account. A URL on another host must also be allowed with WordPress' `allowed_redirect_hosts` filter.

@@ -136,7 +136,8 @@ class OtherAccounts {
 		}
 
 		/**
-		 * Where customers are sent after logging out to log into their other account.
+		 * Where customers are sent after logging out to log into their other account. A URL on another host (e.g. an SSO
+		 * login page) must be allowed with the allowed_redirect_hosts filter, or WordPress redirects to the admin instead.
 		 *
 		 * @param string $url
 		 */
