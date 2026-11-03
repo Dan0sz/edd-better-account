@@ -156,32 +156,40 @@ class OtherAccounts {
 			return [];
 		}
 
-		$customers = edd_get_customers(
-			[
-				'search'          => '@' . $domain,
-				'search_columns'  => [ 'email' ],
-				'user_id__not_in' => [ 0, $user->ID ],
-				'number'          => 50,
-				'orderby'         => 'date_created',
-				'order'           => 'DESC',
-			]
-		);
-
 		$emails = [];
+		$batch  = 50;
+		$offset = 0;
 
-		foreach ( $customers as $customer ) {
-			$other = get_userdata( $customer->user_id );
+		// The search also matches e.g. @company.com.au, and not every match has orders, so look further until enough are found.
+		do {
+			$customers = edd_get_customers(
+				[
+					'search'          => '@' . $domain,
+					'search_columns'  => [ 'email' ],
+					'user_id__not_in' => [ 0, $user->ID ],
+					'number'          => $batch,
+					'offset'          => $offset,
+					'orderby'         => 'date_created',
+					'order'           => 'DESC',
+				]
+			);
 
-			if ( ! $other || $customer->purchase_count < 1 || $this->get_domain( $other->user_email ) !== $domain ) {
-				continue;
+			foreach ( $customers as $customer ) {
+				$other = get_userdata( $customer->user_id );
+
+				if ( ! $other || $customer->purchase_count < 1 || $this->get_domain( $other->user_email ) !== $domain ) {
+					continue;
+				}
+
+				$emails[ strtolower( $other->user_email ) ] = $other->user_email;
+
+				if ( count( $emails ) >= self::MAX ) {
+					break 2;
+				}
 			}
 
-			$emails[ strtolower( $other->user_email ) ] = $other->user_email;
-
-			if ( count( $emails ) >= self::MAX ) {
-				break;
-			}
-		}
+			$offset += $batch;
+		} while ( count( $customers ) === $batch );
 
 		return array_values( $emails );
 	}
