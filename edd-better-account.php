@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Easy Digital Downloads - Better Account
  * Description: Adds tabs to the account pages (Orders, License Keys, Subscriptions, etc.), which you manage as a menu under Appearance > Menus.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Daan from Daan.dev
  * Author URI: https://daan.dev
  * GitHub Plugin URI: Dan0sz/edd-better-account
