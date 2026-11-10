@@ -50,6 +50,7 @@ class Plugin {
 		add_action( 'after_setup_theme', [ $this, 'register_menu_location' ] );
 		add_action( 'wp', [ $this, 'set_current_tab' ] );
 		add_action( 'template_redirect', [ $this, 'maybe_redirect_to_login' ] );
+		add_filter( 'edd_login_redirect', [ $this, 'redirect_after_login' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_filter( 'body_class', [ $this, 'add_body_class' ] );
 
@@ -90,7 +91,8 @@ class Plugin {
 	}
 
 	/**
-	 * The account pages (e.g. Orders or License Keys) show nothing to logged out visitors, so send them to the login page.
+	 * The account pages (e.g. Orders or License Keys) show nothing to logged out visitors, so send them to the login page,
+	 * and back to this page after logging in.
 	 *
 	 * @return void
 	 */
@@ -122,9 +124,32 @@ class Plugin {
 			return;
 		}
 
-		wp_safe_redirect( $login_url );
+		// With the query string, e.g. ?action=manage_licenses&payment_id=123 on the License Keys page.
+		$current_url = set_url_scheme( 'http://' . wp_unslash( $_SERVER['HTTP_HOST'] ) . wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+		wp_safe_redirect( add_query_arg( 'redirect_to', rawurlencode( $current_url ), $login_url ) );
 
 		exit;
+	}
+
+	/**
+	 * EDD's login block and wp-login.php already send customers to the redirect_to URL after logging in, but EDD's login
+	 * form (e.g. on the profile page) sends them back to the login page.
+	 *
+	 * EDD redirects to this filter's result without checking it, so only URLs on this site are returned.
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public function redirect_after_login( $url ) {
+		$fallback = wp_validate_redirect( $url, home_url() );
+
+		if ( empty( $_GET['redirect_to'] ) || ! is_string( $_GET['redirect_to'] ) ) {
+			return $fallback;
+		}
+
+		return wp_validate_redirect( esc_url_raw( wp_unslash( $_GET['redirect_to'] ) ), $fallback );
 	}
 
 	/**

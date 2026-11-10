@@ -25,7 +25,8 @@ Only top level menu items are shown. Logged out visitors don't see the tabs.
 
 Logged out visitors who open an account page (e.g. Orders or License Keys, which show nothing to them) are sent to the
 login page: EDD's **Login Page** (Settings > General > Pages), or else the first tab (e.g. your profile page, which
-shows a login form to logged out visitors). The Delete Account page still shows that an account was deleted.
+shows a login form to logged out visitors). After logging in, they're sent back to the page they opened. The Delete
+Account page still shows that an account was deleted.
 
 On smaller screens, the current tab becomes a button that opens the other tabs.
 
