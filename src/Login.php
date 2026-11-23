@@ -125,7 +125,8 @@ class Login {
 		$items = '';
 
 		foreach ( $this->tabs->get_items() as $item ) {
-			$is_login_page = $item->type === 'post_type' && (int) $item->object_id === get_queried_object_id();
+			$page_id       = $item->type === 'post_type' ? (int) $item->object_id : url_to_postid( $item->url );
+			$is_login_page = $page_id === get_queried_object_id();
 
 			if ( $is_login_page || $this->is_danger( $item ) || strpos( $item->url, 'action=logout' ) !== false ) {
 				continue;

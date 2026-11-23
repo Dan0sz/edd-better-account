@@ -29,7 +29,7 @@ shows a login form to logged out visitors). After logging in, they're sent back 
 Account page still shows that an account was deleted.
 
 On the login page, logged out visitors see the login form on a card, with the tabs they can open after logging in next
-to it. The page's other content (e.g. an introduction to the profile page) is hidden from them. If they were sent there
+to it (except on smaller screens). The page's other content (e.g. an introduction to the profile page) is hidden from them. If they were sent there
 from another account page, a notice tells them why, e.g. "Log in to view **Your Orders**." This works with EDD's login
 form and Login block.
 

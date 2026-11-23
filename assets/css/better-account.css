@@ -269,11 +269,14 @@
     font-weight: 700;
 }
 
-/* On smaller screens, the list goes below the card. */
+/* On smaller screens, there's only the card. */
 @media (max-width: 1023px) {
     .eba-login {
         grid-template-columns: minmax(0, 30rem);
-        gap: 2rem;
+    }
+
+    .eba-login__list {
+        display: none;
     }
 
     .eba-login__card {
