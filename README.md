@@ -28,6 +28,11 @@ login page: EDD's **Login Page** (Settings > General > Pages), or else the first
 shows a login form to logged out visitors). After logging in, they're sent back to the page they opened. The Delete
 Account page still shows that an account was deleted.
 
+On the login page, logged out visitors see the login form on a card, with the tabs they can open after logging in next
+to it (except on smaller screens). The page's other content (e.g. an introduction to the profile page) is hidden from them. If they were sent there
+from another account page, a notice tells them why, e.g. "Log in to view **Your Orders**." This works with EDD's login
+form and Login block.
+
 On smaller screens, the current tab becomes a button that opens the other tabs.
 
 License key fields (EDD Software Licensing) get a button to copy the license key.
@@ -69,7 +74,8 @@ The tabs use your theme's fonts. Colors are custom properties you can override i
 }
 ```
 
-The `<body>` gets the class `has-account-tabs` on pages with tabs.
+The same custom properties work on `.eba-login`, the login page. The `<body>` gets the class `has-account-tabs` on pages
+with tabs, and `has-account-login` on the login page.
 
 ### Filters
 
@@ -77,6 +83,8 @@ The `<body>` gets the class `has-account-tabs` on pages with tabs.
   WordPress' `allowed_redirect_hosts` filter.
 - `edd_better_account_redirect_to_login` — whether to send logged out visitors on an account page to the login page
   (`$redirect`, `$page_id`).
+- `edd_better_account_login_hide_content` — whether to hide the login page's other content from logged out visitors
+  (`$hide`, `$page_id`).
 - `edd_better_account_subscriptions_tab` — the tab to mark as current on EDD Recurring's Update Payment Method page.
 - `edd_better_account_public_email_domains` — email domains (e.g. `gmail.com`) for which no other accounts are looked
   up, because anyone can sign up with them.
