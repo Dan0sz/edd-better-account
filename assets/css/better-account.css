@@ -1,7 +1,8 @@
 /**
  * Override these custom properties in your theme to match its colors.
  */
-.eba {
+.eba,
+.eba-login {
     --eba-accent: var(--global-palette1, #2271b1);
     --eba-accent-background: color-mix(in srgb, var(--eba-accent) 10%, #fff);
     --eba-danger: #b91c1c;
@@ -9,7 +10,9 @@
     --eba-background: #fff;
     --eba-shadow: 0 10px 25px -5px rgb(0 0 0 / .08), 0 0 0 1px rgb(0 0 0 / .04);
     --eba-sticky-top: 2rem;
+}
 
+.eba {
     display: grid;
     grid-template-columns: 15rem minmax(0, 1fr);
     gap: 2.5rem;
@@ -149,6 +152,133 @@
 
 .eba .eba-copy__button.is-failed {
     color: var(--eba-danger);
+}
+
+/* The login page: the login form on a card, with what's in their account next to it. */
+.eba-login {
+    display: grid;
+    grid-template-columns: minmax(0, 30rem) minmax(0, 18rem);
+    gap: 4rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.eba-login__card {
+    padding: 2rem;
+    border-radius: .75rem;
+    background: var(--eba-background);
+    box-shadow: var(--eba-shadow);
+}
+
+.eba-login__card:only-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 30rem;
+    box-sizing: border-box;
+}
+
+.eba-login .eba-login__notice {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--eba-accent);
+    border-radius: .5rem;
+    background: var(--eba-accent-background);
+}
+
+.eba-login .eba-login__card .edd_errors {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    border: 0;
+    border-left: 3px solid var(--eba-danger);
+    border-radius: .5rem;
+    background: color-mix(in srgb, var(--eba-danger) 10%, #fff);
+    color: inherit;
+}
+
+.eba-login .eba-login__card .edd_errors p {
+    margin: 0;
+}
+
+.eba-login .eba-login__card form,
+.eba-login .eba-login__card fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.eba-login .eba-login__card legend {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+.eba-login .eba-login__card #edd_login_form p {
+    display: block;
+    margin: 0 0 1.25rem;
+}
+
+.eba-login .eba-login__card .edd-login-username label,
+.eba-login .eba-login__card .edd-login-password label {
+    display: block;
+    margin: 0 0 .4rem;
+}
+
+.eba-login .eba-login__card .edd-login-remember label {
+    margin: 0;
+    font-weight: 400;
+}
+
+.eba-login .eba-login__card input[type="text"],
+.eba-login .eba-login__card input[type="email"],
+.eba-login .eba-login__card input[type="password"],
+.eba-login .eba-login__card input[type="submit"] {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+.eba-login .eba-login__card #edd_login_form .edd-lost-password,
+.eba-login .eba-login__card .edd-blocks-form__group-lost-password {
+    margin: 0;
+    text-align: center;
+}
+
+.eba-login .eba-login__list h2 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+}
+
+.eba-login .eba-login__list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.eba-login .eba-login__list li {
+    position: relative;
+    margin: 0 0 .75rem;
+    padding-left: 1.75rem;
+}
+
+.eba-login .eba-login__list li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    color: var(--eba-accent);
+    font-weight: 700;
+}
+
+/* On smaller screens, the list goes below the card. */
+@media (max-width: 1023px) {
+    .eba-login {
+        grid-template-columns: minmax(0, 30rem);
+        gap: 2rem;
+    }
+
+    .eba-login__card {
+        padding: 1.25rem;
+    }
 }
 
 /* On smaller screens, the current tab becomes a button that opens the other tabs. */

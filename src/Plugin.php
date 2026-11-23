@@ -22,6 +22,11 @@ class Plugin {
 	private $other_accounts;
 
 	/**
+	 * @var Login
+	 */
+	private $login;
+
+	/**
 	 * @var \WP_Post|null The current tab, if the tabs are shown on this page.
 	 */
 	private $current;
@@ -37,6 +42,7 @@ class Plugin {
 	public function __construct() {
 		$this->tabs           = new Tabs();
 		$this->other_accounts = new OtherAccounts( $this->tabs );
+		$this->login          = new Login( $this->tabs );
 
 		$this->init();
 	}
@@ -156,7 +162,9 @@ class Plugin {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		if ( ! $this->current ) {
+		$is_login_page = $this->login->is_login_page();
+
+		if ( ! $this->current && ! $is_login_page ) {
 			return;
 		}
 
@@ -168,6 +176,10 @@ class Plugin {
 			[],
 			filemtime( EDD_BETTER_ACCOUNT_PLUGIN_DIR . "assets/css/better-account$suffix.css" )
 		);
+
+		if ( $is_login_page ) {
+			return;
+		}
 
 		wp_enqueue_script(
 			'edd-better-account',
@@ -198,24 +210,30 @@ class Plugin {
 			$classes[] = 'has-account-tabs';
 		}
 
+		if ( $this->login->is_login_page() ) {
+			$classes[] = 'has-account-login';
+		}
+
 		return $classes;
 	}
 
 	/**
-	 * Puts the tabs next to the page's content.
+	 * Puts the tabs next to the page's content, or the login form on a card for logged out visitors.
 	 *
 	 * @param string $content
 	 *
 	 * @return string
 	 */
 	public function add_tabs( $content ) {
-		if ( ! $this->current || $this->rendered || ! in_the_loop() || ! is_main_query() || get_the_ID() !== get_queried_object_id() ) {
+		$is_login_page = $this->login->is_login_page();
+
+		if ( ( ! $this->current && ! $is_login_page ) || $this->rendered || ! in_the_loop() || ! is_main_query() || get_the_ID() !== get_queried_object_id() ) {
 			return $content;
 		}
 
 		$this->rendered = true;
 
-		return $this->wrap( $content );
+		return $is_login_page ? $this->login->wrap( $content ) : $this->wrap( $content );
 	}
 
 	/**
